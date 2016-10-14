@@ -1,7 +1,7 @@
 /**
-@mainpage Configurator Tutorial for the INET Framework
+@mainpage IPv4Configurator Tutorial for the INET Framework
 
-This tutorial will show how to use the <tt>IPv4NetworkConfigurator</tt> module to configure IP addresses and routing in wired and wireless IPv4 networks in the INET framework.
+This tutorial will show how to use the <tt>IPv4NetworkConfigurator</tt> module to configure IP addresses and routing tables in wired and wireless IPv4 networks in the INET framework.
 The tutorial is organized into multiple steps, each corresponding to a simulation model. The steps demonstrate how to accomplish certain
 tasks with the configurator.
 
@@ -38,9 +38,9 @@ defined in separate .NED files.
 
 The goal of this step is to demonstrate that in many scenarios, the configurator can adequatelly configure the network with its default settings, without
 any user input. This is useful when it is irrelevant what the nodes' actual IP addresses are in a simulation, because the goal is to study wireless
-transmission ranges, for example. The default settings will result in a network where routing 'just works'.
+transmission ranges, for example.
 In this step, we will show that the configurator's automatic IP address assignment is adequate for the example network
-(this step deals with IP addresses only, routes will be discussed in later steps).
+(this step deals with IP addresses only, routing will be discussed in later steps).
 
 @section s1model The model
 
