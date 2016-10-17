@@ -201,7 +201,7 @@ class TCPOptionUnknown extends TCPOption
 // cMessage::getKind() may be set to an arbitrary value: TCP entities will
 // ignore it and use only the header fields (synBit, ackBit, rstBit).
 //
-packet TcpHeader extends Chunk
+class TcpHeader extends Chunk
 {
     @customize(true);
     chunkByteLength = TCP_HEADER_OCTETS;
@@ -249,7 +249,11 @@ packet TcpHeader extends Chunk
     // Header options (optional)
     // Currently only EOL, NOP, MSS, WS, SACK_PERMITTED, SACK and TS are implemented
     abstract TCPOptionPtr headerOption[];
+}
 
+packet TcpPayload
+{
+    @customize(true);
     //TODO: next fields represents the body content, should be removed from TCP Header
 
     // Payload length in octets (not an actual TCP header field).

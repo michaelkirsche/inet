@@ -60,8 +60,6 @@ class INET_API Sack : public Sack_Base
 class INET_API TcpHeader : public TcpHeader_Base, public ITransportPacket
 {
   protected:
-    typedef std::list<TCPPayloadMessage> PayloadList;
-    PayloadList payloadList;
     typedef std::vector<TCPOption *> OptionList;
     OptionList headerOptionList;
 
@@ -77,34 +75,6 @@ class INET_API TcpHeader : public TcpHeader_Base, public ITransportPacket
     virtual TcpHeader *dup() const override { return new TcpHeader(*this); }
     virtual void parsimPack(cCommBuffer *b) PARSIMPACK_CONST override;
     virtual void parsimUnpack(cCommBuffer *b) override;
-
-    /** Generated but unused method, should not be called. */
-    virtual void setPayloadArraySize(unsigned int size) override;
-
-    /** Generated but unused method, should not be called. */
-    virtual void setPayload(unsigned int k, const TCPPayloadMessage& payload_var) override;
-
-    /**
-     * Returns the number of payload messages in this TCP segment
-     */
-    virtual unsigned int getPayloadArraySize() const override;
-
-    /**
-     * Returns the kth payload message in this TCP segment
-     */
-    virtual TCPPayloadMessage& getPayload(unsigned int k) override;
-
-    /**
-     * Adds a message object to the TCP segment. The sequence number + 1 of the
-     * last byte of the message should be passed as 2nd argument
-     */
-    virtual void addPayloadMessage(cPacket *msg, uint32 endSequenceNo);
-
-    /**
-     * Removes and returns the first message object in this TCP segment.
-     * It also returns the sequence number + 1 of its last octet in outEndSequenceNo.
-     */
-    virtual cPacket *removeFirstPayloadMessage(uint32& outEndSequenceNo);
 
     /**
      * Returns RFC 793 specified SEG.LEN:
@@ -150,6 +120,82 @@ class INET_API TcpHeader : public TcpHeader_Base, public ITransportPacket
     virtual void setSourcePort(unsigned int port) override { TcpHeader_Base::setSrcPort(port); }
     virtual unsigned int getDestinationPort() const override { return TcpHeader_Base::getDestPort(); }
     virtual void setDestinationPort(unsigned int port) override { TcpHeader_Base::setDestPort(port); }
+
+  protected:
+    /**
+     * Truncate segment data. Called from truncateSegment().
+     * @param truncleft: number of bytes for truncate from begin of data
+     * @param truncright: number of bytes for truncate from end of data
+     */
+    virtual void truncateData(unsigned int truncleft, unsigned int truncright);
+};
+
+
+/**
+ * Represents a TCP segment. More info in the TCPSegment.msg file
+ * (and the documentation generated from it).
+ */
+class INET_API TcpPayload : public TcpPayload_Base
+{
+  protected:
+    typedef std::list<TCPPayloadMessage> PayloadList;
+    PayloadList payloadList;
+
+  private:
+    void copy(const TcpPayload& other);
+    void clean();
+
+  public:
+    TcpPayload(const char *name = nullptr, int kind = 0) : TcpPayload_Base(name, kind) {}
+    TcpPayload(const TcpPayload& other) : TcpPayload_Base(other) { copy(other); }
+    ~TcpPayload();
+    TcpPayload& operator=(const TcpPayload& other);
+    virtual TcpPayload *dup() const override { return new TcpPayload(*this); }
+    virtual void parsimPack(cCommBuffer *b) PARSIMPACK_CONST override;
+    virtual void parsimUnpack(cCommBuffer *b) override;
+
+    /** Generated but unused method, should not be called. */
+    virtual void setPayloadArraySize(unsigned int size) override;
+
+    /** Generated but unused method, should not be called. */
+    virtual void setPayload(unsigned int k, const TCPPayloadMessage& payload_var) override;
+
+    /**
+     * Returns the number of payload messages in this TCP segment
+     */
+    virtual unsigned int getPayloadArraySize() const override;
+
+    /**
+     * Returns the kth payload message in this TCP segment
+     */
+    virtual TCPPayloadMessage& getPayload(unsigned int k) override;
+
+    /**
+     * Adds a message object to the TCP segment. The sequence number + 1 of the
+     * last byte of the message should be passed as 2nd argument
+     */
+    virtual void addPayloadMessage(cPacket *msg, uint32 endSequenceNo);
+
+    /**
+     * Removes and returns the first message object in this TCP segment.
+     * It also returns the sequence number + 1 of its last octet in outEndSequenceNo.
+     */
+    virtual cPacket *removeFirstPayloadMessage(uint32& outEndSequenceNo);
+
+    /**
+     * Returns RFC 793 specified SEG.LEN:
+     *     SEG.LEN = the number of octets occupied by the data in the segment
+     *               (counting SYN and FIN)
+     *
+     */
+    virtual uint32_t getSegLen();
+
+    /**
+     * Truncate segment.
+     * @param firstSeqNo: sequence no of new first byte
+     * @param endSeqNo: sequence no of new last byte + 1
+     */
+    virtual void truncateSegment(uint32 firstSeqNo, uint32 endSeqNo);
 
   protected:
     /**
