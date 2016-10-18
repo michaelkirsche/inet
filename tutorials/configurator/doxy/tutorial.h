@@ -75,20 +75,16 @@ The network looks like this:
 <img src="step1network.png">
 
 The network contains 3 routers, each connected to the other two. There are 3 subnetworks with <tt>standardHosts</tt>, connected to the routers by ethernet switches.
-It also contains an instance of <tt>RoutingTableCanvasVisualizer</tt> and <tt>IPv4NetworkConfigurator</tt>.
-
-The <tt>RoutingTableCanvasVisualizer</tt> will be used in later steps to visualize routes in the network.
+It also contains an instance of <tt>IPv4NetworkConfigurator</tt>.
 
 The ini file:
 
 @dontinclude omnetpp.ini
-@skip [General]
-@until ####
 @skip Step1
 @until ####
 
-The line in the general configuration keeps the routingTable from adding netmask routes that come from interfaces. Since these routes are added by the configurator as well, to keep things simpler,
-we instruct the routingTable not to add any routes. This is added to the general configuration so it applies to the config of all steps.
+<! THIS ONE SHOULD BE IN A LATER STEP - The line in the general configuration keeps the routingTable from adding netmask routes that come from interfaces. Since these routes are added by the configurator as well, to keep things simpler,
+we instruct the routingTable not to add any routes. This is added to the general configuration so it applies to the config of all steps.>
 <!TODO: more on this - how does it work?>
 The configuration for Step 1 is empty. The configurator configures addresses according to the default configuration.
 
