@@ -58,13 +58,13 @@ network ConfiguratorA
             @display("p=972.435,98.8575");
         }
         host6: StandardHost {
-            @display("p=1351.725,417.6225");
+            @display("p=1430.4075,417.6225");
         }
         host7: StandardHost {
-            @display("p=1351.725,577.005");
+            @display("p=1430.4075,577.005");
         }
         host8: StandardHost {
-            @display("p=1351.725,736.3875");
+            @display("p=1430.4075,736.3875");
         }
         switch0: EtherSwitch {
             @display("p=518.4975,574.9875");
