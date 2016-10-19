@@ -123,6 +123,9 @@ network ConfiguratorD
         radioMedium: Ieee80211ScalarRadioMedium {
             @display("p=94.05,467.115");
         }
+        standardHost: StandardHost {
+            @display("p=799.425,827.64");
+        }
     connections:
         area2subnet1host1.ethg++ <--> Eth100M <--> area2switch1.ethg++;
         area2subnet1host2.ethg++ <--> Eth100M <--> area2switch1.ethg++;
@@ -145,4 +148,5 @@ network ConfiguratorD
         area3router.ethg++ <--> Eth100M <--> area3AP.ethg++;
         area3router.ethg++ <--> Eth100M <--> Backbonerouter.ethg++;
         area2router.ethg++ <--> Eth100M <--> Backbonerouter.ethg++;
+        standardHost.ethg++ <--> Eth100M <--> area1AP.ethg++;
 }
