@@ -30,31 +30,31 @@ network ConfiguratorF
 {
     @display("bgb=1609.9875,1034.55");
     submodules:
-        Area1Router: Router {
+        area1router: Router {
             @display("p=519.75,535.8375");
         }
-        Area1wirelessHost1: WirelessHost {
+        area1wirelesshost1: WirelessHost {
             @display("p=246.26251,368.775");
         }
-        Area1wirelessHost3: WirelessHost {
+        area1wirelesshost3: WirelessHost {
             @display("p=404.6625,506.1375");
         }
-        Area1wirelessHost2: WirelessHost {
+        area1wirelesshost2: WirelessHost {
             @display("p=377.4375,409.61252");
         }
-        Area3Host3: StandardHost {
+        area3host3: StandardHost {
             @display("p=905.85004,773.4375");
         }
-        Area3Host2: StandardHost {
+        area3host2: StandardHost {
             @display("p=794.47504,773.4375");
         }
-        Area3Host1: StandardHost {
+        area3host1: StandardHost {
             @display("p=678.15,773.4375");
         }
-        Area3Router: Router {
+        area3router: Router {
             @display("p=780.8625,535.8375");
         }
-        Area3Switch: EtherSwitch {
+        area3Switch: EtherSwitch {
             @display("p=805.6125,665.775");
         }
         configurator: IPv4NetworkConfigurator {
@@ -66,29 +66,29 @@ network ConfiguratorF
         visualizer: IntegratedCanvasVisualizer {
             @display("p=276,46");
         }
-        Area2Router: Router {
+        area2router: Router {
             @display("p=657.1125,356.4");
         }
-        Area2AP: AccessPoint {
+        area2AP: AccessPoint {
             @display("p=763.53754,280.9125");
         }
-        Area2wirelessHost1: WirelessHost {
+        area2wirelesshost1: WirelessHost {
             @display("p=876.15,173.25");
         }
-        Area2wirelessHost2: WirelessHost {
+        area2wirelesshost2: WirelessHost {
             @display("p=936.78754,279.67502");
         }
-        Area2wirelessHost3: WirelessHost {
+        area2wirelesshost3: WirelessHost {
             @display("p=876.15,382.3875");
         }
     connections:
-        Area3Host1.ethg++ <--> Eth100M <--> Area3Switch.ethg++;
-        Area3Host2.ethg++ <--> Eth100M <--> Area3Switch.ethg++;
-        Area3Switch.ethg++ <--> Eth100M <--> Area3Host3.ethg++;
-        Area3Switch.ethg++ <--> Eth100M <--> Area3Router.ethg++;
-        Area3Router.ethg++ <--> Eth100M <--> Area1Router.ethg++;
-        Area1Router.ethg++ <--> Eth100M <--> Area1wirelessHost3.ethg++;
-        Area1Router.ethg++ <--> Eth100M <--> Area2Router.ethg++;
-        Area2Router.ethg++ <--> Eth100M <--> Area3Router.ethg++;
-        Area2Router.ethg++ <--> Eth100M <--> Area2AP.ethg++;
+        area3host1.ethg++ <--> Eth100M <--> area3Switch.ethg++;
+        area3host2.ethg++ <--> Eth100M <--> area3Switch.ethg++;
+        area3Switch.ethg++ <--> Eth100M <--> area3host3.ethg++;
+        area3Switch.ethg++ <--> Eth100M <--> area3router.ethg++;
+        area3router.ethg++ <--> Eth100M <--> area1router.ethg++;
+        area1router.ethg++ <--> Eth100M <--> area1wirelesshost3.ethg++;
+        area1router.ethg++ <--> Eth100M <--> area2router.ethg++;
+        area2router.ethg++ <--> Eth100M <--> area3router.ethg++;
+        area2router.ethg++ <--> Eth100M <--> area2AP.ethg++;
 }

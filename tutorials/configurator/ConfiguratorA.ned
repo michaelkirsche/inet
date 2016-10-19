@@ -31,49 +31,49 @@ network ConfiguratorA
             @display("p=100,100");
         }
         host0: StandardHost {
-            @display("p=179.48,352.55");
+            @display("p=268.32748,417.6225");
         }
         host1: StandardHost {
-            @display("p=179.48,520.8125");
+            @display("p=268.32748,574.9875");
         }
         host2: StandardHost {
-            @display("p=179.48,693.88245");
+            @display("p=268.32748,736.3875");
         }
         host3: StandardHost {
-            @display("p=536.83746,99.354996");
+            @display("p=667.7925,98.8575");
         }
         router0: Router {
-            @display("p=578.5025,576.89996");
+            @display("p=667.7925,574.9875");
         }
         router2: Router {
-            @display("p=882.9775,576.89996");
+            @display("p=972.435,574.9875");
         }
         router1: Router {
-            @display("p=730.74,370.1775");
+            @display("p=821.1225,369.20248");
         }
         host4: StandardHost {
-            @display("p=778.81494,99.354996");
+            @display("p=821.1225,98.8575");
         }
         host5: StandardHost {
-            @display("p=977.52496,99.354996");
+            @display("p=972.435,98.8575");
         }
         host6: StandardHost {
-            @display("p=1249.95,370.1775");
+            @display("p=1351.725,417.6225");
         }
         host7: StandardHost {
-            @display("p=1272.3849,549.6575");
+            @display("p=1351.725,577.005");
         }
         host8: StandardHost {
-            @display("p=1261.1675,737.14996");
+            @display("p=1351.725,736.3875");
         }
         switch0: EtherSwitch {
-            @display("p=427.8675,575.2975");
+            @display("p=518.4975,574.9875");
         }
         switch1: EtherSwitch {
-            @display("p=1072.0725,575.2975");
+            @display("p=1162.08,574.9875");
         }
         switch2: EtherSwitch {
-            @display("p=730.74,227.555");
+            @display("p=821.1225,225.95999");
         }
     connections:
         host2.ethg++ <--> Eth100M <--> switch0.ethg++;
@@ -93,4 +93,3 @@ network ConfiguratorA
         router0.ethg++ <--> Eth10M <--> router2.ethg++;
 }
 
-//##### (marker for doxygen)
