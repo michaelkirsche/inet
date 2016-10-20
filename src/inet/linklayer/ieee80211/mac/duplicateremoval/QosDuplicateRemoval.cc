@@ -44,13 +44,16 @@ bool QoSDuplicateRemoval::isDuplicate(Ieee80211DataOrMgmtFrame *frame)
         Ieee80211DataFrame *qosDataFrame = check_and_cast<Ieee80211DataFrame *>(frame);
         Key key(frame->getTransmitterAddress(), qosDataFrame->getTid());
         auto it = lastSeenSeqNumCache.find(key);
-        if (it == lastSeenSeqNumCache.end())
+        if (it == lastSeenSeqNumCache.end()) {
             lastSeenSeqNumCache.insert(std::pair<Key, SequenceControlField>(key, seqVal));
-        if (it->second.getSequenceNumber() == seqVal.getSequenceNumber() && it->second.getFragmentNumber() == seqVal.getFragmentNumber() && frame->getRetry())
+            return false;
+        }
+        else if (it->second.getSequenceNumber() == seqVal.getSequenceNumber() && it->second.getFragmentNumber() == seqVal.getFragmentNumber() && frame->getRetry())
             return true;
-        else
+        else {
             it->second = seqVal;
-        return false;
+            return false;
+        }
     }
 }
 
