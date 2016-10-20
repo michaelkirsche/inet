@@ -41,7 +41,7 @@ void Contention::initialize(int stage)
         mac = check_and_cast<Ieee80211Mac *>(getContainingNicModule(this));
         startTxEvent = new cMessage("startTx");
         startTxEvent->setSchedulingPriority(1000);
-        fsm.setName("fsm");
+        fsm.setName("Backoff procedure");
         fsm.setState(IDLE, "IDLE");
 
         WATCH(ifs);
