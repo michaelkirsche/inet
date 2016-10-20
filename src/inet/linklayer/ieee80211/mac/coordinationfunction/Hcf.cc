@@ -154,8 +154,12 @@ void Hcf::channelGranted(IChannelAccess* channelAccess)
         AccessCategory ac = edcaf->getAccessCategory();
         EV_DETAIL << "Channel access granted to the " << printAccessCategory(ac) << " queue" << std::endl;
         edcaTxops[ac]->startTxop(ac);
+        auto internallyCollidedEdcafs = edca->getInternallyCollidedEdcafs();
+        if (internallyCollidedEdcafs.size() > 0) {
+            EV_INFO << "Internal collision happened with the following queues:" << std::endl;
+            handleInternalCollision(internallyCollidedEdcafs);
+        }
         startFrameSequence(ac);
-        handleInternalCollision(edca->getInternallyCollidedEdcafs());
     }
     else
         throw cRuntimeError("Channel access granted but channel owner not found!");
@@ -177,6 +181,7 @@ void Hcf::handleInternalCollision(std::vector<Edcaf*> internallyCollidedEdcafs)
     for (auto edcaf : internallyCollidedEdcafs) {
         AccessCategory ac = edcaf->getAccessCategory();
         Ieee80211DataOrMgmtFrame *internallyCollidedFrame = edcaInProgressFrames[ac]->getFrameToTransmit();
+        EV_INFO << printAccessCategory(ac) << " (" << internallyCollidedFrame->getName() << ")" << endl;
         bool retryLimitReached = false;
         if (auto dataFrame = dynamic_cast<Ieee80211DataFrame *>(internallyCollidedFrame)) { // TODO: QoSDataFrame
             edcaDataRecoveryProcedures[ac]->dataFrameTransmissionFailed(dataFrame);
@@ -190,12 +195,17 @@ void Hcf::handleInternalCollision(std::vector<Edcaf*> internallyCollidedEdcafs)
         else // TODO: + NonQoSDataFrame
             throw cRuntimeError("Unknown frame");
         if (retryLimitReached) {
+            EV_DETAIL << "The frame has reached its retry limit. Dropping it" << std::endl;
             edcaInProgressFrames[ac]->dropFrame(internallyCollidedFrame);
-            if (hasFrameToTransmit(ac))
+            if (hasFrameToTransmit(ac)) {
+                EV_DETAIL << printAccessCategory(ac) << " has still frames to transmit" << std::endl;
                 edcaf->requestChannel(this);
+            }
         }
-        else
+        else {
+            EV_DETAIL << "The frame has not reached its retry limit." << std::endl;
             edcaf->requestChannel(this);
+        }
     }
 }
 
@@ -207,8 +217,10 @@ void Hcf::frameSequenceFinished()
         edcaf->releaseChannel(this);
         AccessCategory ac = edcaf->getAccessCategory();
         edcaTxops[ac]->stopTxop();
-        if (startContention)
+        if (startContention) {
+            EV_DETAIL << printAccessCategory(ac) << " queue still has frames to transmit" << std::endl;
             edcaf->requestChannel(this);
+        }
     }
     else if (hcca->isOwning()) {
         hcca->releaseChannel(this);
