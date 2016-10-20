@@ -130,7 +130,46 @@ The addresses are from the 10.0.0.0/29 range, and all nodes are on the same subn
 
 @section s2goals Goals
 
-Sometimes the user may want to specify the IP addresses of certain nodes in a network, while leaving the rest for automatic configuration. For example, giving nodes with a special purpose a certain IP might help
-remembering the address. 
+Sometimes the user may want to specify the IP addresses of some nodes with special purpose in the network and leave the rest for the automatic configuration. This helps remembering IP addresses of said nodes. This step demonstrates manually specifying individual IP addresses.
+
+@section s2model The model
+
+This step uses the <i>ConfiguratorA</i> network from the previous step. We will assign the 10.0.0.50 address to <i>host1</i>
+and 10.0.0.100 to <i>host3</i>. The configurator will automatically assign addresses to the rest of the nodes.
+
+<! about the xml configuration>
+
+@subsection s2config Configuration
+
+The configuration in omnetpp.ini for this step is the following:
+
+@dontinclude omnetpp.ini
+@skip Step2
+@until ####
+
+The xml configuration is supplied to the configurator as inline xml in this step. It is also possible to use an external xml file, this
+will be discussed in a later step. The xml configuration contains one <i><config></i> element. Under this root element there can be
+multiple configuration elements, such as the <i><interface></i> element in the configuration for this step.
+
+The interface element can contain selector attributes, which selects which interfaces are selected.
+They can also contain parameter attributes, which deal with what parameters those selected interfaces will have, like IP addresses and
+netmasks. The 'x' in the IP address and netmask signify that it is not fixed, but the configurator should choose the value automatically.
+
+<img src="step2address.png" width=850px>
+
+<!draft>
+the xml config can be supplied with the xml("") or the xmldoc(""), which is inline and external file.
+The config contains one <config> element and any number of the others.
+
+the interface has selectors which limit the scope of the configuration and parameters which add something to the selected interfaces
+
+the two special hosts should have the IP addresses and the others
+should be assigned automatically.
+
+note that the assigment is in the order of the configuration file
+
+and that the automatic assigment continues from the last assigned address
+
+@fixupini
 
 */
