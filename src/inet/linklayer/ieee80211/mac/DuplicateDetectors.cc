@@ -148,8 +148,10 @@ bool QoSDuplicateDetector::isDuplicate(Ieee80211DataOrMgmtFrame *frame)
         Ieee80211DataFrame *qosDataFrame = check_and_cast<Ieee80211DataFrame *>(frame);
         Key key(frame->getTransmitterAddress(), qosDataFrame->getTid());
         auto it = lastSeenSeqNumCache.find(key);
-        if (it == lastSeenSeqNumCache.end())
+        if (it == lastSeenSeqNumCache.end()) {
             lastSeenSeqNumCache[key] = seqVal;
+            return false;
+        }
         if (it->second.seqNum == seqVal.seqNum && it->second.fragNum == seqVal.fragNum && frame->getRetry())
             return true;
         else
