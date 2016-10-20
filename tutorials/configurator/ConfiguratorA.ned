@@ -93,3 +93,4 @@ network ConfiguratorA
         router0.ethg++ <--> Eth10M <--> router2.ethg++;
 }
 
+//##### (marker for doxygen)

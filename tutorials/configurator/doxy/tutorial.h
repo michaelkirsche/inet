@@ -86,7 +86,32 @@ The ini file:
 <! THIS ONE SHOULD BE IN A LATER STEP - The line in the general configuration keeps the routingTable from adding netmask routes that come from interfaces. Since these routes are added by the configurator as well, to keep things simpler,
 we instruct the routingTable not to add any routes. This is added to the general configuration so it applies to the config of all steps.>
 <!TODO: more on this - how does it work?>
-The configuration for Step 1 is empty. The configurator configures addresses according to the default configuration.
+The configuration for Step 1 is empty. The configurator configures addresses according its default parameters, and using the default xml configuration.
+
+The default parameters pertaining to IP address assignment are the following:
+
+<pre>
+bool assignAddresses = default(true);
+bool assignDisjunctSubnetAddresses = default(true);
+bool dumpAddresses = default(false);
+</pre>
+
+- <strong>assignAddresses = true</strong> tells the configurator to assign IP addresses to interfaces. It assigns addresses based on the supplied xml configuration,
+or the default xml configuration if none is specified. Since no xml configuration is specified in this step, it used the default configuration.
+
+- <strong>assignDisjunctSubnetAddresses = true</strong> sets that the configurator should assign different address prefix and netmask
+to nodes on different links.
+
+- <strong>dumpAddresses = false</strong> instructs the configurator to not print assigned IP addresses to the module output.
+
+An XML configuration can be supplied with the <strong>config</strong> parameter. The default for this is the following:
+
+<code>
+xml config = default(xml("<config><interface hosts='**' address='10.x.x.x' netmask='255.x.x.x'/></config>"));
+</code>
+
+The default xml configuration tells the configurator to assign IP addresses to all interfaces of all hosts, 
+from the IP range 10.0.0.0 - 10.255.255.255 and netmask range 255.0.0.0 - 255.255.255.255.
 
 @section Results
 
@@ -102,5 +127,10 @@ The addresses are from the 10.0.0.0/29 range, and all nodes are on the same subn
 @page step2 Step 2 - Manually overriding individual IP addresses
 
 @nav{step1,step3}
+
+@section s2goals Goals
+
+Sometimes the user may want to specify the IP addresses of certain nodes in a network, while leaving the rest for automatic configuration. For example, giving nodes with a special purpose a certain IP might help
+remembering the address. 
 
 */
