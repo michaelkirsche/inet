@@ -115,6 +115,7 @@ void Contention::startContention(simtime_t ifs, simtime_t eifs, int cwMin, int c
 
     int cw = computeCw(cwMin, cwMax, retryCount);
     backoffSlots = intrand(cw + 1);
+    EV_DETAIL << "Starting contention: cw = " << cw << ", slots = " << backoffSlots << endl;
 
 #ifdef NS3_VALIDATION
     static const char *AC[] = {"AC_BE", "AC_BK", "AC_VI", "AC_VO"};
@@ -182,11 +183,6 @@ void Contention::handleWithFSM(EventType event, cMessage *msg)
                     DEFER,
                     cancelTransmissionRequest();
                     computeRemainingBackoffSlots();
-                    );
-            FSMA_Event_Transition(optimized-internal-collision,
-                    event == INTERNAL_COLLISION && backoffOptimizationDelta != SIMTIME_ZERO,
-                    IFS_AND_BACKOFF,
-                    revokeBackoffOptimization();
                     );
             FSMA_Event_Transition(Internal-collision,
                     event == INTERNAL_COLLISION,
