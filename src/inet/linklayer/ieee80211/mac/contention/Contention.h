@@ -42,6 +42,7 @@ class INET_API Contention : public cSimpleModule, public IContention
         Ieee80211Mac *mac = nullptr;
         ICallback *callback = nullptr;
         cMessage *startTxEvent = nullptr;
+        cMessage *channelGrantedEvent = nullptr;
 
         // current contention's parameters
         simtime_t ifs = SIMTIME_ZERO;

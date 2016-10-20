@@ -40,7 +40,11 @@ void Contention::initialize(int stage)
         lastIdleStartTime = simTime() - SimTime::getMaxTime() / 2;
         mac = check_and_cast<Ieee80211Mac *>(getContainingNicModule(this));
         startTxEvent = new cMessage("startTx");
-        startTxEvent->setSchedulingPriority(1000);
+        // FIXME: kludge
+        // The callback->channelAccessGranted() call should be the last
+        // event at a simulation time in order to handle internal collisions
+        // properly.
+        channelGrantedEvent = new cMessage("channelGranted");
         fsm.setName("Backoff procedure");
         fsm.setState(IDLE, "IDLE");
 
@@ -65,6 +69,7 @@ void Contention::initialize(int stage)
 
 Contention::~Contention()
 {
+    cancelAndDelete(channelGrantedEvent);
     cancelAndDelete(startTxEvent);
 }
 
@@ -141,10 +146,8 @@ void Contention::handleWithFSM(EventType event)
         }
     }
     emit(stateChangedSignal, fsm.getState());
-    if (finallyReportChannelAccessGranted) {
-        callback->channelAccessGranted();
-        callback = nullptr;
-    }
+    if (finallyReportChannelAccessGranted)
+        scheduleAt(simTime(), channelGrantedEvent);
     if (hasGUI()) {
         if (startTxEvent->isScheduled())
             updateDisplayString(startTxEvent->getArrivalTime());
@@ -163,8 +166,14 @@ void Contention::mediumStateChanged(bool mediumFree)
 
 void Contention::handleMessage(cMessage *msg)
 {
-    ASSERT(msg == startTxEvent);
-    handleWithFSM(CHANNEL_ACCESS_GRANTED);
+    if (msg == startTxEvent)
+        handleWithFSM(CHANNEL_ACCESS_GRANTED);
+    else if (msg == channelGrantedEvent) {
+        callback->channelAccessGranted();
+        callback = nullptr;
+    }
+    else
+        throw cRuntimeError("Unknown msg");
 }
 
 void Contention::corruptedFrameReceived()
