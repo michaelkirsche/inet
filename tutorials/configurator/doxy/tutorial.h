@@ -160,6 +160,10 @@ They can also contain parameter attributes, which deal with what parameters thos
 netmasks. The 'x' in the IP address and netmask signify that the value is not fixed, but the configurator should choose it automatically.
 With these templates it is possible to leave everything to the configurator or specify everything, and anything in between. <!this last one is not clear, rewrite>
 
+<! need to explain host="" names="" address="" specifically><! do we need names=""? they have only one interface><!about xml="">
+<! when there is a supplied configuration, and it doesnt specify all the addresses manually,
+the entry for the default configuration must be included in order for the configurator to assign addresses to all hosts>
+
 The xml configuration for this step contains two rules for setting the IP addresses of the two special hosts,
 and the rule of the default configuration, which tells the configurator to assign the rest of the addresses automatically.
 
@@ -185,6 +189,43 @@ that is after setting the 10.0.0.100 address to <i>host3</i>, it didnt go back t
 
 @section s3goals Goals
 
+Complex networks often contain several subnetworks, the user may want to assign specific IP address ranges for them.
+This step demonstrates how to assign a range of IP addresses to subnets with xml configuration templates.
 
+@section s3model The model
+
+This step uses the <i>ConfiguratorA</i> network, as in the previous two steps.
+The three hosts connected to the router through the switch will be on the same subnet, and there are 3 such groups in the network.
+
+
+The configuration is the following:
+
+@dontinclude omnetpp.ini
+@skipline Step3
+@until ####
+
+The xml configuration is supplied in an external file (step3.xml), using the xmldoc (TODO: what is this called?)
+
+@include step3.xml
+
+The first 3 entries instruct the configurator to assign addresses to interfaces of hosts 0 to 2 according the 10.0.0.x template,
+to interfaces of hosts 3 to 5 according to the 10.0.1.x template, and so on.
+
+The <i>towards</i> selector can be used to easily select the interfaces that are connected towards a certain host (or set of hosts?)
+The next 3 entries specify that the router's interface connecting to the subnet of hosts should be on the same subnet as those hosts.
+
+The last entry sets the network network prefix of interfaces of all routers to be 10.1. Since the addresses for the interfaces
+connected towards the hosts are already specified by a previous entry, this effects only the rest of interfaces, that is
+those facing the other routers.
+
+@section s3results Results
+
+The assigned addresses are shown on the following image.
+
+<img src="step3address.png" width=850px>
+
+
+
+@fixupini
 
 */
