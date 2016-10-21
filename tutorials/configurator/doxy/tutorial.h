@@ -86,20 +86,20 @@ The ini file:
 <! THIS ONE SHOULD BE IN A LATER STEP - The line in the general configuration keeps the routingTable from adding netmask routes that come from interfaces. Since these routes are added by the configurator as well, to keep things simpler,
 we instruct the routingTable not to add any routes. This is added to the general configuration so it applies to the config of all steps.>
 <!TODO: more on this - how does it work?>
-The configuration for Step 1 is empty. The configurator configures addresses according its default parameters, and using the default xml configuration.
+The configuration for Step 1 is empty. The configurator configures addresses according to its default parameters, and using the default xml configuration.
 
 The default parameters pertaining to IP address assignment are the following:
 
 <pre>
-bool assignAddresses = default(true);
-bool assignDisjunctSubnetAddresses = default(true);
-bool dumpAddresses = default(false);
+assignAddresses = default(true);
+assignDisjunctSubnetAddresses = default(true);
+dumpAddresses = default(false);
 </pre>
 
 - <strong>assignAddresses = true</strong> tells the configurator to assign IP addresses to interfaces. It assigns addresses based on the supplied xml configuration,
-or the default xml configuration if none is specified. Since no xml configuration is specified in this step, it used the default configuration.
+or the default xml configuration if none is specified. Since no xml configuration is specified in this step, it uses the default configuration.
 
-- <strong>assignDisjunctSubnetAddresses = true</strong> sets that the configurator should assign different address prefix and netmask
+- <strong>assignDisjunctSubnetAddresses = true</strong> sets that the configurator should assign different address prefixes and netmasks
 to nodes on different links.
 
 - <strong>dumpAddresses = false</strong> instructs the configurator to not print assigned IP addresses to the module output.
@@ -107,22 +107,27 @@ to nodes on different links.
 An XML configuration can be supplied with the <strong>config</strong> parameter. The default for this is the following:
 
 <code>
-xml config = default(xml("<config><interface hosts='**' address='10.x.x.x' netmask='255.x.x.x'/></config>"));
+config = default(xml("<config><interface hosts='**' address='10.x.x.x' netmask='255.x.x.x'/></config>"));
 </code>
+
+This configuration is utilized when the user doesn't specify any configuration.
 
 The default xml configuration tells the configurator to assign IP addresses to all interfaces of all hosts, 
 from the IP range 10.0.0.0 - 10.255.255.255 and netmask range 255.0.0.0 - 255.255.255.255.
 
 @section Results
 
-<!TODO rewrite - draft>
 The IP addresses assigned to interfaces by the configurator are shown on the image below.
-The addresses are from the 10.0.0.0/29 range, and all nodes are on the same subnet. Adequate for basic networking.
+The switches and hosts connected to the individual routers are considered to be one the same link.
+Note that the configurator assigned addresses sequentially starting from 10.0.0.1, while making sure that different subnets got different address prefixes and netmasks,
+as instructed by the <strong>assignDisjunctSubnetAddresses</strong> parameter.
 
 <img src="step1addresses.png" width=850px>
 
 @nav{index,step2}
 @fixupini
+
+<!-------------------------------------------------------------------------------------------------------->
 
 @page step2 Step 2 - Manually overriding individual IP addresses
 
@@ -149,27 +154,37 @@ The configuration in omnetpp.ini for this step is the following:
 
 The xml configuration is supplied to the configurator as inline xml in this step. It is also possible to use an external xml file, this
 will be discussed in a later step. The xml configuration contains one <i><config></i> element. Under this root element there can be
-multiple configuration elements, such as the <i><interface></i> element in the configuration for this step.
-
-The interface element can contain selector attributes, which selects which interfaces are selected.
+multiple configuration elements, such as the <i><interface></i> element here.
+The interface element can contain selector attributes, which limit the scope of what interfaces are effected by the <interface> element.
 They can also contain parameter attributes, which deal with what parameters those selected interfaces will have, like IP addresses and
-netmasks. The 'x' in the IP address and netmask signify that it is not fixed, but the configurator should choose the value automatically.
+netmasks. The 'x' in the IP address and netmask signify that the value is not fixed, but the configurator should choose it automatically.
+With these templates it is possible to leave everything to the configurator or specify everything, and anything in between. <!this last one is not clear, rewrite>
+
+The xml configuration for this step contains two rules for setting the IP addresses of the two special hosts,
+and the rule of the default configuration, which tells the configurator to assign the rest of the addresses automatically.
+
+Note that the configuration is processed sequentially, thus the order of the configuration elements is important.
+
+@section s2results Results
+
+The assigned addresses are shown in the following image.
 
 <img src="step2address.png" width=850px>
 
-<!draft>
-the xml config can be supplied with the xml("") or the xmldoc(""), which is inline and external file.
-The config contains one <config> element and any number of the others.
+As in the previous step, the configurator assigned disjunct subnet addresses. Note that the configurator still assigned addresses sequentially,
+that is after setting the 10.0.0.100 address to <i>host3</i>, it didnt go back to the beginning of the address pool.
 
-the interface has selectors which limit the scope of the configuration and parameters which add something to the selected interfaces
-
-the two special hosts should have the IP addresses and the others
-should be assigned automatically.
-
-note that the assigment is in the order of the configuration file
-
-and that the automatic assigment continues from the last assigned address
-
+@nav{step1,step3}
 @fixupini
+
+<!-------------------------------------------------------------------------------------------------------->
+
+@page step3 Step 3 - Automatically assigning IP addresses to a subnet from a given range
+
+@nav{step2,step4}
+
+@section s3goals Goals
+
+
 
 */
