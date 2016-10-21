@@ -36,7 +36,7 @@ defined in separate .NED files.
 
 @section s1goals Goals
 
-The goal of this step is to demonstrate that in many scenarios, the configurator can adequatelly configure the network with its default settings, without
+The goal of this step is to demonstrate that in many scenarios, the configurator can adequatelly configure IP addresses in a network with its default settings, without
 any user input. This is useful when it is irrelevant what the nodes' actual IP addresses are in a simulation, because the goal is to study wireless
 transmission ranges, for example.
 In this step, we will show that the configurator's automatic IP address assignment is adequate for the example network
@@ -74,10 +74,10 @@ The network looks like this:
 
 <img src="step1network.png">
 
-The network contains 3 routers, each connected to the other two. There are 3 subnetworks with <tt>standardHosts</tt>, connected to the routers by ethernet switches.
+The network contains 3 routers, each connected to the other two. There are 3 subnetworks with <tt>StandardHosts</tt>, connected to the routers by ethernet switches.
 It also contains an instance of <tt>IPv4NetworkConfigurator</tt>.
 
-The ini file:
+The configuration for this step in omnetpp.ini is the following: 
 
 @dontinclude omnetpp.ini
 @skip Step1
@@ -104,13 +104,12 @@ to nodes on different links.
 
 - <strong>dumpAddresses = false</strong> instructs the configurator to not print assigned IP addresses to the module output.
 
-An XML configuration can be supplied with the <strong>config</strong> parameter. The default for this is the following:
+An XML configuration can be supplied with the <strong>config</strong> parameter. Below is the default for this configuration.
+This is utilized when the user doesn't specify any configuration.
 
 <code>
 config = default(xml("<config><interface hosts='**' address='10.x.x.x' netmask='255.x.x.x'/></config>"));
 </code>
-
-This configuration is utilized when the user doesn't specify any configuration.
 
 The default xml configuration tells the configurator to assign IP addresses to all interfaces of all hosts, 
 from the IP range 10.0.0.0 - 10.255.255.255 and netmask range 255.0.0.0 - 255.255.255.255.
@@ -152,13 +151,19 @@ The configuration in omnetpp.ini for this step is the following:
 @skip Step2
 @until ####
 
-The xml configuration is supplied to the configurator as inline xml in this step. It is also possible to use an external xml file, this
-will be discussed in a later step. The xml configuration contains one <i><config></i> element. Under this root element there can be
+The xml configuration can be supplied to the <i>config</i> parameter in one of two ways:
+
+- Inline xml using the <i>xml()</i> function. The argument of the function is the xml code.
+- External xml file useing the <i>xmldoc()</i> function. The argument of the function is the name of the xml configuration file.
+
+<!is this a function?>
+
+The xml configuration is supplied to the configurator as inline xml in this step. Xml configurations contain one <i><config></i> element. Under this root element there can be
 multiple configuration elements, such as the <i><interface></i> element here.
-The interface element can contain selector attributes, which limit the scope of what interfaces are effected by the <interface> element.
+The interface element can contain selector attributes, which limit the scope of what interfaces are affected by the <interface> element.
 They can also contain parameter attributes, which deal with what parameters those selected interfaces will have, like IP addresses and
 netmasks. The 'x' in the IP address and netmask signify that the value is not fixed, but the configurator should choose it automatically.
-With these templates it is possible to leave everything to the configurator or specify everything, and anything in between. <!this last one is not clear, rewrite>
+With these address templates it is possible to leave everything to the configurator or specify everything, and anything in between. <!this last one is not clear, rewrite>
 
 <! need to explain host="" names="" address="" specifically><! do we need names=""? they have only one interface><!about xml="">
 <! when there is a supplied configuration, and it doesnt specify all the addresses manually,
@@ -176,7 +181,8 @@ The assigned addresses are shown in the following image.
 <img src="step2address.png" width=850px>
 
 As in the previous step, the configurator assigned disjunct subnet addresses. Note that the configurator still assigned addresses sequentially,
-that is after setting the 10.0.0.100 address to <i>host3</i>, it didnt go back to the beginning of the address pool.
+that is after setting the 10.0.0.100 address to <i>host3</i>, it didnt go back to the beginning of the address pool when assigning the
+remaining addresses.
 
 @nav{step1,step3}
 @fixupini
@@ -208,15 +214,19 @@ The xml configuration is supplied in an external file (step3.xml), using the xml
 
 @include step3.xml
 
+v1.
 The first 3 entries instruct the configurator to assign addresses to interfaces of hosts 0 to 2 according the 10.0.0.x template,
 to interfaces of hosts 3 to 5 according to the 10.0.1.x template, and so on.
+
+v2. 
+The first 3 entries instruct the configurator to assign addresses to hosts 0 to 2 with the 10.0.0 network prefix,
+to hosts 3 to 5 with the 10.0.1 network prefix, and so on.
 
 The <i>towards</i> selector can be used to easily select the interfaces that are connected towards a certain host (or set of hosts?)
 The next 3 entries specify that the router's interface connecting to the subnet of hosts should be on the same subnet as those hosts.
 
 The last entry sets the network network prefix of interfaces of all routers to be 10.1. Since the addresses for the interfaces
-connected towards the hosts are already specified by a previous entry, this effects only the rest of interfaces, that is
-those facing the other routers.
+connected towards the hosts are already specified by a previous entry, this effects only the rest of interfaces, those facing the other routers.
 
 @section s3results Results
 
