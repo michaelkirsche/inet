@@ -34,7 +34,7 @@ network ConfiguratorA
             @display("p=268.32748,417.6225");
         }
         host1: StandardHost {
-            @display("p=268.32748,574.9875");
+            @display("p=268.32748,542.7075");
         }
         host2: StandardHost {
             @display("p=268.32748,736.3875");
@@ -52,7 +52,7 @@ network ConfiguratorA
             @display("p=821.1225,369.20248");
         }
         host4: StandardHost {
-            @display("p=821.1225,98.8575");
+            @display("p=843.315,98.8575");
         }
         host5: StandardHost {
             @display("p=972.435,98.8575");
@@ -61,7 +61,7 @@ network ConfiguratorA
             @display("p=1430.4075,417.6225");
         }
         host7: StandardHost {
-            @display("p=1430.4075,577.005");
+            @display("p=1430.4075,542.7075");
         }
         host8: StandardHost {
             @display("p=1430.4075,736.3875");

@@ -88,6 +88,8 @@ we instruct the routingTable not to add any routes. This is added to the general
 <!TODO: more on this - how does it work?>
 The configuration for Step 1 is empty. The configurator configures addresses according to its default parameters, and using the default xml configuration.
 
+<! not all parameters are set to default, dumpaddresses set to true in general config!>
+
 The default parameters pertaining to IP address assignment are the following:
 
 <pre>
@@ -103,6 +105,18 @@ or the default xml configuration if none is specified. Since no xml configuratio
 to nodes on different links.
 
 - <strong>dumpAddresses = false</strong> instructs the configurator to not print assigned IP addresses to the module output.
+
+Additionally, the <strong>dumpAddresses</strong> parameter sets whether the configurator prints assigned IP addresses to the module output.
+This is false by default, but its set to true in the <i>General</i> configuration at the begining of omnetpp.ini:
+
+@dontinclude omnetpp.ini
+@skipline General
+@until ####
+
+Note that the other settings in the General configuration will be discussed later.
+
+<! dumpaddresses set to true in general config!!!!>
+<! so is links, topology and routes!>
 
 An XML configuration can be supplied with the <strong>config</strong> parameter. Below is the default for this configuration.
 This is utilized when the user doesn't specify any configuration.
@@ -228,6 +242,7 @@ The next 3 entries specify that the router's interface connecting to the subnet 
 The last entry sets the network network prefix of interfaces of all routers to be 10.1. Since the addresses for the interfaces
 connected towards the hosts are already specified by a previous entry, this effects only the rest of interfaces, those facing the other routers.
 
+<! is that correct to say network prefix?>
 @section s3results Results
 
 The assigned addresses are shown on the following image.
