@@ -1,0 +1,8 @@
+====== inet-3.x ======
+
+2016-11-05  Michael Kirsche
+
+	Ieee802154Port: Created folders and basic modules for the port of the 
+	IEEE 802.15.4 model from INET 2 to INET 3.x.
+
+2016-06-15  ------ inet-3.4.0 released ------
