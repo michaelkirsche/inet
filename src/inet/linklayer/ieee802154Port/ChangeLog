@@ -1,8 +1,14 @@
 ====== inet-3.x ======
 
-2016-11-05  Michael Kirsche
+2016-11-26  Michael Kirsche
 
-	Ieee802154Port: Created folders and basic modules for the port of the 
-	IEEE 802.15.4 model from INET 2 to INET 3.x.
+	Ieee802154Port: Adjusted model structure to support different MAC  
+	revisions; added prototype for Upper Layer Interface (ULI) modules
+	(like LLC and SSCS for 2006 revision and ULI for 2015 revision)
+
+2016-11-05	Michael Kirsche
+
+	Ieee802154Port: Created basic module structure, introduced according 
+	INET project feature to make model available during feature selection
 
 2016-06-15  ------ inet-3.4.0 released ------

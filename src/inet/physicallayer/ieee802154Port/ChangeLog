@@ -1,0 +1,7 @@
+====== inet-3.x ======
+
+2016-11-26  Michael Kirsche
+
+    Ieee802154Port: PHY / Radio NED structure created, similar to IRadio / IdealRadio
+
+2016-06-15  ------ inet-3.4.0 released ------

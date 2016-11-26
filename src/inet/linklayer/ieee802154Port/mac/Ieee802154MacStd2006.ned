@@ -1,7 +1,7 @@
 //
 // Copyright (C) 2016 Michael Kirsche   (redesigned for INET 3.x)
 // Copyright (C) 2015 Michael Kirsche   (ported for INET 2.x)
-// Copyright (C) 2013 Matti Schnurbusch (original code)
+// Copyright (C) 2013 Matti Schnurbusch (original version)
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -20,7 +20,7 @@
 package inet.linklayer.ieee802154Port.mac;
 
 // interface class of all IEEE 802.15.4 MAC modules
-import inet.linklayer.ieee802154Port.IIeee802154Mac;
+import inet.linklayer.ieee802154Port.mac.IIeee802154Mac;
 
 import inet.linklayer.base.MACProtocolBase;
 // in case of errors in OMNeT 4.x, uncomment the following parts instead of the previous import
@@ -50,29 +50,20 @@ import inet.linklayer.base.MACProtocolBase;
 //        output lowerLayerOut @labels(ILinkLayerFrame/down);
 //}
 
-// IEEE 802.15.4 Medium Access Control Layer 
+// Std. IEEE 802.15.4-2006 Medium Access Control (MAC) Layer 
 
-module Ieee802154Mac extends MACProtocolBase like IIeee802154Mac
+module Ieee802154MacStd2006 extends MACProtocolBase like IIeee802154Mac
 {
 	parameters:
-	    @class(Ieee802154Mac);
+	    @class(Ieee802154MacStd2006);
+        string uliModule;   // name of the 802.15.4 Upper Layer Interface (ULI) module
+        string phyModule;   // name of the 802.15.4 Physical Layer (PHY) module
+        
         bool macDebug = default(false);         	// debug output switch for the IEEE 802.15.4 MAC module
         
         string macAddr = default("auto"); 	    	// MAC address as hex string (16 hex digits), or "auto" 
-                                                	// "auto" values are replaced by a generated MAC address in init stage 0    
-        bool isPANCoordinator = default(false); 	// either first device online chooses to be PAN coordinator or set manually together with startWithoutStartReq
-        bool startWithoutStartReq = default(false); // start immediately without requiring a MLME-START.request
-        string panCoordinatorName;              	// name your PAN coordinator
         
         int BeaconOrder = default (15);         	// value (0..15), default 15 = beacon disabled 
         int SuperframeOrder = default (15);     	// value (0..15), default 15 = superframe/beacons disabled
-
-        bool isRecvGts;
-        int gtsPayload;
-        int defChann;
-        bool ackForGts;
-        bool promiscuousMode = default(false);  	// set to true to enable promicious mode (accept all packages)
-        bool SecurityEnabled = default(false);
-        bool isFFD = default(true);             	// full function devices yes/no
 
 }
