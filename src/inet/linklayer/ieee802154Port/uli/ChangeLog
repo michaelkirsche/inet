@@ -1,0 +1,10 @@
+====== inet-3.x ======
+
+2016-11-18  Michael Kirsche
+
+    Ieee802154Port: introduced Upper Layer Interface prototype to 
+    support different types of "interfaces" for upper layers
+    (like LLC and SSCS for 2006 revision and ULI for 2015 revision)
+
+
+2016-06-15  ------ inet-3.4.0 released ------

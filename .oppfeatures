@@ -1103,13 +1103,14 @@
 	<feature
         id="Ieee802154Port"
         name="Porting IEEE 802.15.4 to INET3"
-        description = "An INET v3 Port of the INET v2 IEEE 802.15.4 Model, which is available
-					   online https://github.com/michaelkirsche/IEEE802154INET-Standalone"
+        description = "An INET v3.x Port of the INET v2.x IEEE 802.15.4 Model, 
+		       previous model @ https://github.com/michaelkirsche/IEEE802154INET-Standalone"
         initiallyEnabled = "false"
         requires = "mobility radio idealwireless"
         labels = "nic wireless"
         nedPackages = "
                        inet.linklayer.ieee802154Port
+                       inet.physicallayer.ieee802154Port
                       "
         extraSourceFolders = ""
         compileFlags = "-DWITH_IEEE802154PORT"

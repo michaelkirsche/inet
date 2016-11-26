@@ -1,0 +1,8 @@
+====== inet-3.x ======
+
+2016-11-18  Michael Kirsche
+
+    Ieee802154Port: Adjusted model structure to support different MAC  
+    revisions (e.g., 2006 standard)
+    
+2016-06-15  ------ inet-3.4.0 released ------

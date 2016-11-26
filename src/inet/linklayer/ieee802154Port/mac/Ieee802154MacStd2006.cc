@@ -1,4 +1,6 @@
 //
+// Copyright (C) 2016   Michael Kirsche
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -13,28 +15,23 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package inet.linklayer.ieee802154Port;
+#include "Ieee802154MacStd2006.h"
 
-simple MsgBuffer
+namespace inet {
+namespace ieee802154Port {
+
+Define_Module(Ieee802154MacStd2006);
+
+Ieee802154MacStd2006::Ieee802154MacStd2006()
 {
-    parameters:
-
-    gates:
-        input upperLayerIn;
-        output upperLayerOut;
-        
-        // SSCS/LLC interface
-        input inSSCS;
-        input inLLC;
-
-        output outSSCS;
-        output outLLC;
-
-        // MAC interface
-        input inMCPS;
-        input inMLME;
-
-        output outMCPS;
-        output outMLME;
+    // TODO Auto-generated constructor stub
 
 }
+
+Ieee802154MacStd2006::~Ieee802154MacStd2006()
+{
+    // TODO Auto-generated destructor stub
+}
+
+} /* namespace ieee802154Port */
+} /* namespace inet */
