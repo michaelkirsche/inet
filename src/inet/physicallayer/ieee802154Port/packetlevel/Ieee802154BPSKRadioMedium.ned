@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2016 Michael Kirsche
+// Copyright (C) 2016   Michael Kirsche
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -17,18 +17,19 @@
 
 package inet.physicallayer.ieee802154Port.packetlevel;
 
-import inet.physicallayer.ieee802154Port.IIeee802154Phy;
-
-import inet.physicallayer.idealradio.IdealRadio;
+import inet.physicallayer.common.packetlevel.RadioMedium;
 
 //
-// The future implementation of the 802.15.4 radio
-// Used in combination with appropriate Radio Medium, Transmitter 
-// and Receiver classes / NED-files
+// The future implementation of the 802.15.4 BPSK radio
+// Used in combination with the appropriate classes and NED-files
+// See ~Ieee802154BPSKRadio, ~Ieee802154BPSKRadioTransmitter, 
+// ~Ieee802154BPSKRadioReceiver 
 //
-module Ieee802154BPSKPhy extends IdealRadio like IIeee802154Phy
+module Ieee802154BPSKRadioMedium extends RadioMedium
 {
-    // nothing here yet, we use IdealRadio until PHY/Radio porting has started
     parameters:
-        string macModule;
+        // TODO currently only copied from IdealRadioMedium
+        propagationType = default("ConstantSpeedPropagation");
+        pathLossType = default("FreeSpacePathLoss");
+        analogModelType = default("IdealAnalogModel");
 }

@@ -637,7 +637,7 @@
         name="Mobility examples"
         description = "Examples for Mobility support"
         initiallyEnabled = "true"
-        requires = "mobility"
+        requires = "mobility visualization"
         labels = "examples"
         nedPackages = "
                        inet.examples.mobility
@@ -738,7 +738,7 @@
         name="IEEE 802.15.4"
         description = "Provides IEEE 802.15.4 Narrowband and Ultra-Wideband NICs"
         initiallyEnabled = "true"
-        requires = "mobility radio CSMA"
+        requires = "mobility radio CSMA apskradio"
         labels = "nic wireless"
         nedPackages = "
                        inet.linklayer.ieee802154
@@ -1107,13 +1107,27 @@
 		       previous model @ https://github.com/michaelkirsche/IEEE802154INET-Standalone"
         initiallyEnabled = "false"
         requires = "mobility radio idealwireless"
-        labels = "nic wireless"
+        labels = "nic wireless protocols"
         nedPackages = "
                        inet.linklayer.ieee802154Port
                        inet.physicallayer.ieee802154Port
                       "
         extraSourceFolders = ""
         compileFlags = "-DWITH_IEEE802154PORT"
+        linkerFlags = ""
+        />
+	<feature
+        id="Ieee802154Port_examples"
+        name="Porting IEEE 802.15.4 to INET3 - Examples"
+        description = "Examples to run the new INET v3.x Port of the IEEE 802.15.4 Model"
+        initiallyEnabled = "false"
+        requires = "Ieee802154Port Ethernet visualization"
+        labels = "examples protocols nic wireless"
+        nedPackages = "
+                       inet.examples.ieee802154port
+                      "
+        extraSourceFolders = ""
+        compileFlags = ""
         linkerFlags = ""
         />
 </features>

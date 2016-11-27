@@ -16,15 +16,15 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //
 
-package inet.examples.wireless.ieee802154port;
+package inet.examples.ieee802154port;
 
 import inet.applications.ethernet.EtherAppCli;  // TODO choose different traffic generator
-import inet.common.queue.Sink;                  // receiver application, simple sink
+import inet.common.queue.Sink;                  // receiver application, a simple packet-discarding sink
 import inet.mobility.single.CircleMobility;
 import inet.mobility.static.StationaryMobility;
+import inet.physicallayer.contract.packetlevel.IRadioMedium;
+import inet.visualizer.integrated.IntegratedCanvasVisualizer;
 import inet.linklayer.ieee802154Port.Ieee802154PortNic;
-import inet.physicallayer.ieee802154Port.packetlevel.Ieee802154BPSKPhy;
-import inet.physicallayer.idealradio.IdealRadioMedium;
 
 module SenderNode
 {
@@ -84,7 +84,8 @@ module ReceiverNode
 network Test
 {
     parameters:
-        int numSender;
+        int numSender = default(1);
+        string radioMediumType = default("IdealRadioMedium");
         @display("b=297,203");
     submodules:
         sender[numSender]: SenderNode {
@@ -95,7 +96,11 @@ network Test
             parameters:
                 @display("p=350,350;r=,,#707070");
         }
-        radioMedium: IdealRadioMedium {
+        visualizer: IntegratedCanvasVisualizer {
+            parameters:
+                @display("p=62,122");
+        }
+        radioMedium: <radioMediumType> like IRadioMedium {
             parameters:
                 @display("p=61,46");
         }
