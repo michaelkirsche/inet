@@ -35,14 +35,15 @@ using namespace physicallayer;
 class INET_API Ieee802154MacBase : public MACProtocolBase
 {
     protected:
-      MACAddress address; // only because createInterfaceEntry() needs it
+        MACAddress address; // only because createInterfaceEntry() needs it
+                            // FIXME switch to 64-Bit extended MACaddress once it is available
 
-      IRadio *radio = nullptr;
+        IRadio *radio = nullptr;
 
-      IRadio::TransmissionState transmissionState = IRadio::TransmissionState::TRANSMISSION_STATE_UNDEFINED;
+        IRadio::TransmissionState transmissionState = IRadio::TransmissionState::TRANSMISSION_STATE_UNDEFINED;
 
-      static simsignal_t stateSignal;
-      static simsignal_t radioStateSignal;
+        static simsignal_t stateSignal;
+        static simsignal_t radioStateSignal;
 
     protected:
         // initialization
@@ -72,6 +73,13 @@ class INET_API Ieee802154MacBase : public MACProtocolBase
         virtual bool handleNodeStart(IDoneCallback *doneCallback) override;
         virtual bool handleNodeShutdown(IDoneCallback *doneCallback) override;
         virtual void handleNodeCrash() override;
+
+        void receiveSignal(cComponent *source, simsignal_t signalID, long value, cObject *details) override;
+        void configureRadioMode(IRadio::RadioMode radioMode);
+
+//        virtual InterfaceEntry *createInterfaceEntry() override;
+//        virtual const MACAddress& isInterfaceRegistered();
+//        void transmissionStateChanged(IRadio::TransmissionState transmissionState);
 
     public:
         Ieee802154MacBase();

@@ -1,5 +1,5 @@
 //
-// Copyright (C) 2016 Michael Kirsche 
+// Copyright (C) 2016   Michael Kirsche
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -15,20 +15,17 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package inet.physicallayer.ieee802154Port;
+package inet.physicallayer.ieee802154Port.packetlevel;
 
-import inet.physicallayer.contract.packetlevel.IRadio;
+import inet.physicallayer.idealradio.IdealTransmitter;
 
 //
-// Module interface for IEEE 802.15.4 PHY / Radio modules
-// This is not a concrete module type, but a prototype for all types of 
-// IEEE 802.15.4 Physical Layer (PHY) module types.
-// It exists to specify what gates a PHY module should have in order  
-// to be usable within ~Ieee802154Nic.
+// The future implementation of the 802.15.4 BPSK radio
+// Used in combination with the appropriate classes and NED-files
+// See ~Ieee802154BPSKRadio, ~Ieee802154BPSKRadioReceiver, 
+// ~Ieee802154BPSKRadioMedium 
 //
-moduleinterface IIeee802154Phy extends IRadio
+module Ieee802154BPSKTransmitter extends IdealTransmitter
 {
-    parameters:
-        @display("i=block/rxtx");
-        string macModule;   // Name of the 802.15.4 MAC module
+    // nothing to extend so far...
 }

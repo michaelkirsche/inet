@@ -21,7 +21,6 @@ package inet.linklayer.ieee802154Port;
 
 // Interface classes for wireless NIC and Radio
 import inet.linklayer.contract.IWirelessNic;
-import inet.physicallayer.contract.packetlevel.IRadio;
 
 // Interface class for IEEE 802.15.4 Upper Layer Interface Modules 
 // (e.g., LLC, SSCS, queue or other upper layer interfaces / converters)
@@ -31,9 +30,9 @@ import inet.linklayer.ieee802154Port.uli.IIeee802154Uli;
 // (e.g., 2006 revision, 2009, 2015, etc.)
 import inet.linklayer.ieee802154Port.mac.IIeee802154Mac;
 
-// Interface class for IEEE 802.15.4 PHY/Radio modules 
-// (e.g., 802.15.4 PHY 2006 revision, IdealRadio, etc.)
-import inet.physicallayer.ieee802154Port.IIeee802154Phy;
+// Interface class for radio modules 
+// (e.g., IdealRadio, 802.15.4 radios, etc.)
+import inet.physicallayer.contract.packetlevel.IRadio;
 
 // 
 // This Network Interface Card (NIC) implements an IEEE 802.15.4 NIC.
@@ -46,12 +45,12 @@ module Ieee802154PortNic like IWirelessNic
     parameters:
         string interfaceTableModule;
         string energySourceModule = default("");
-        //*.interfaceTableModule = default(absPath(interfaceTableModule));
-        //*.energySourceModule = default(absPath(energySourceModule));
+        *.interfaceTableModule = default(absPath(interfaceTableModule));
+        *.energySourceModule = default(absPath(energySourceModule));
 
         string uliType = default(""); 	// choose an Upper Layer Interface (ULI) module (e.g., SSCS, LLC, 802.15.12 ULI)
-        string macType = default("Ieee802154MacStd2006"); // choose from various 802.15.4 MAC types (e.g., Std2006, Std2009, Std2015)
-        string phyType = default("Ieee802154BPSKPhy"); // choose a compatible radio (e.g., Ieee802154BPSKPhy, Ieee802154QPSKPhy)
+        string macType = default("Ieee802154MacStd2006"); // choose from various 802.15.4 MAC types (e.g., Ieee802154MacStd2006, Std2009, Std2015)
+        string phyType = default("IdealRadio"); // choose a compatible radio (e.g., Ieee802154BPSKRadio, Ieee802154OQPSKRadio)
 
         @display("i=block/ifcard;bgb=154,249");
 
@@ -69,14 +68,13 @@ module Ieee802154PortNic like IWirelessNic
 
         mac: <macType> like IIeee802154Mac {
             parameters:
-//                uliModule = (uliType == "" ? "" : "^.uli");   // FIXME problem of "no parameter uliModule" if no uliType was selected
-//                phyModule = "^.phy";
+                uliModule = (uliType == "" ? "" : "^.uli");
+                phyModule = "^.phy";
                 @display("p=80,125;i=block/mac");
         }
 
-        phy: <phyType> like IIeee802154Phy {
+        phy: <phyType> like IRadio {
             parameters:
-                macModule = "^.mac";
                 @display("p=80,200;i=block/wrxtx");
         }
 
@@ -101,7 +99,7 @@ module Ieee802154PortNic like IWirelessNic
             upperLayerIn --> { @display("m=a"); } --> mac.upperLayerIn;
             mac.upperLayerOut --> { @display("m=a"); } --> upperLayerOut;
         }
-                
+
         // connections between MAC and PHY / Radio modules
         mac.lowerLayerOut --> phy.upperLayerIn;
         phy.upperLayerOut --> mac.lowerLayerIn;

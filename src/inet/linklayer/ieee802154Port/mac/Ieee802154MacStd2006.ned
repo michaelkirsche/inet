@@ -19,36 +19,9 @@
 
 package inet.linklayer.ieee802154Port.mac;
 
+import inet.linklayer.base.MACProtocolBase;
 // interface class of all IEEE 802.15.4 MAC modules
 import inet.linklayer.ieee802154Port.mac.IIeee802154Mac;
-
-import inet.linklayer.base.MACProtocolBase;
-// in case of errors in OMNeT 4.x, uncomment the following parts instead of the previous import
-// near copy-paste of inet.linklayer.base.MACProtocolBase to work around "compound-module cannot extend a simple-module" error in OMNeT++ 4.x
-//module LayeredProtocolBase
-//{
-//    parameters:
-//        @signal[packetSentToUpper](type=cPacket);
-//        @signal[packetReceivedFromUpper](type=cPacket);
-//        @signal[packetFromUpperDropped](type=cPacket);
-//        @signal[packetSentToLower](type=cPacket);
-//        @signal[packetReceivedFromLower](type=cPacket);
-//        @signal[packetFromLowerDropped](type=cPacket);
-//}
-//
-//// near copy-paste of inet.linklayer.base.MACProtocolBase to work around "compound-module cannot extend a simple-module" error in OMNeT++ 4.x
-//module MACProtocolBase extends LayeredProtocolBase
-//{
-//    parameters:
-//        string interfaceTableModule;
-//        int mtu @unit("B") = default(2304B);
-//        @display("i=block/rxtx");
-//    gates:
-//        input upperLayerIn @labels(INetworkDatagram/down);
-//        output upperLayerOut @labels(INetworkDatagram/up);
-//        input lowerLayerIn @labels(ILinkLayerFrame/up);
-//        output lowerLayerOut @labels(ILinkLayerFrame/down);
-//}
 
 // Std. IEEE 802.15.4-2006 Medium Access Control (MAC) Layer 
 
@@ -59,11 +32,10 @@ module Ieee802154MacStd2006 extends MACProtocolBase like IIeee802154Mac
         string uliModule;   // name of the 802.15.4 Upper Layer Interface (ULI) module
         string phyModule;   // name of the 802.15.4 Physical Layer (PHY) module
         
-        bool macDebug = default(false);         	// debug output switch for the IEEE 802.15.4 MAC module
+        string macAddr = default("auto"); 	// MAC address as hex string (16 hex digits), or "auto" 
+                                            // "auto" values are replaced by a generated MAC address in init stage 0  
         
-        string macAddr = default("auto"); 	    	// MAC address as hex string (16 hex digits), or "auto" 
-        
-        int BeaconOrder = default (15);         	// value (0..15), default 15 = beacon disabled 
-        int SuperframeOrder = default (15);     	// value (0..15), default 15 = superframe/beacons disabled
+        int BeaconOrder = default (15);     // value (0..15), default 15 = beacon disabled 
+        int SuperframeOrder = default (15); // value (0..15), default 15 = superframe/beacons disabled
 
 }
