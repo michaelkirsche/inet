@@ -18,7 +18,7 @@
 #include "inet/applications/tcpapp/TCPGenericSrvApp.h"
 
 #include "inet/applications/common/SocketTag_m.h"
-#include "inet/applications/tcpapp/GenericAppMsg_m.h"
+#include "inet/applications/generic/GenericAppMsg_m.h"
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/ProtocolTag_m.h"
 #include "inet/common/lifecycle/NodeStatus.h"

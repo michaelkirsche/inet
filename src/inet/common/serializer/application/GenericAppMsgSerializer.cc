@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 //
 
-#include "inet/applications/tcpapp/GenericAppMsg_m.h"
+#include "inet/applications/generic/GenericAppMsg_m.h"
 #include "inet/common/packet/serializer/ChunkSerializerRegistry.h"
 #include "inet/common/serializer/application/GenericAppMsgSerializer.h"
 

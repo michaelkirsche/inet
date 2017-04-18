@@ -17,7 +17,7 @@
 
 #include "inet/applications/tcpapp/TelnetApp.h"
 
-#include "inet/applications/tcpapp/GenericAppMsg_m.h"
+#include "inet/applications/generic/GenericAppMsg_m.h"
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/lifecycle/NodeStatus.h"
 #include "inet/common/lifecycle/NodeOperations.h"

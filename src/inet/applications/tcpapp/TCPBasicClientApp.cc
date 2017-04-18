@@ -20,7 +20,7 @@
 #include "inet/common/ModuleAccess.h"
 #include "inet/common/lifecycle/NodeOperations.h"
 #include "inet/common/packet/Packet.h"
-#include "inet/applications/tcpapp/GenericAppMsg_m.h"
+#include "inet/applications/generic/GenericAppMsg_m.h"
 
 namespace inet {
 
